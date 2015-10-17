@@ -1,0 +1,5 @@
+"dependencies": {
+  "tutor" : "*",
+  "jquery" : "*",
+  "slack-client" : "*"
+}
