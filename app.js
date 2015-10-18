@@ -70,7 +70,7 @@ slack.on("message", function(message) {
     //console.log(cardText);
     if (cardText != "" && cardText != undefined) {
       try {
-        tutor.card(cardText, function(err, card) {
+        tutor.card({ name: cardText}, function(err, card) {
           if (err) {
             console.error(err);
             return null;
