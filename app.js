@@ -47,7 +47,6 @@ slack.on('open', function() {
     return g.name
   });
 
-  console.log("Welcome to Slack.");
 
   if (channels.length > 0) {
     console.log("You are in: " + channels.join(", "));
@@ -63,24 +62,18 @@ slack.on('open', function() {
 slack.on("message", function(message) {
   var channel = slack.getChannelGroupOrDMByID(message.channel);
 
-  console.log(channel);
-
   if (message.type === 'message' && message.text != undefined && message.text != null && channel.name != "general") {
     var cardText = getCard(message.text);
-    //console.log(cardText);
     if (cardText != "" && cardText != undefined) {
       try {
         tutor.card({ name: cardText}, function(err, card) {
           if (err) {
-            console.error(err);
             return null;
           }
-          console.log(last_card);
           last_card = card;
           channel.send(card.image_url);
         });
       } catch (e) {
-        console.log("Couldn't find " + cardText);
       }
     } else {
       if (message.text.toLowerCase().indexOf("mtgfetchbot") > -1) {
@@ -124,9 +117,6 @@ slack.on("message", function(message) {
               formats.push(key);
               legality.push(last_card.legality[key]);
             }
-            console.log(formats);
-            console.log(legality);
-
             if (formats.length > 0) {
               channel.send("The card " + last_card.name + " is legal in the following formats: ");
               var tempString = "";
@@ -141,9 +131,12 @@ slack.on("message", function(message) {
               }
               channel.send(tempString);
             }
+            formats = null;
+            legality = null;
           }
         }
       }
+      var cardText = null;
     }
   }
 });
